@@ -11,13 +11,24 @@ def odejmij_macierze(A, B):
 def pomnoz_macierze(A, B):
     pass
 
-# OSOBA C:
+# OSOBA C
 def odwroc_macierz(A):
-    pass
+    try:
+        return np.linalg.inv(A)
+    except np.linalg.LinAlgError:
+        return "Błąd: Macierz jest osobliwa, nie można jej odwrócić."
 
 def poteguj_macierz(A, n):
-    pass
+    try:
+        return np.linalg.matrix_power(A, n)
+    except Exception as e:
+        return f"Błąd podczas potęgowania: {e}"
 
-def generuj_losowa(wiersze, kolumny):
-    # Dodatkowa funkcja od grupy
-    pass
+# funkcja dodatkowa
+def wyznacznik_macierzy(A):
+    try:
+        wynik = np.linalg.det(A)
+        return round(wynik, 4)
+    except Exception as e:
+        return f"Błąd podczas obliczania wyznacznika: {e}"
+    
