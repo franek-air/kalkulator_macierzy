@@ -17,12 +17,12 @@ def dodaj_do_historii(opis_dzialania, macierz_wynikowa):
         'wynik': macierz_wynikowa
     }
     _historia.append(nowy_wpis)
-    print(f"✅ Dodano do historii: {opis_dzialania}")
+    print(f"Dodano do historii: {opis_dzialania}")
 
 def wyswietl_historie():
     """Wypisuje sformatowaną listę ostatnich 10 zadań."""
     if not _historia:
-        print("\n📭 Historia jest pusta.")
+        print("\nHistoria jest pusta.")
         return
 
     print("\n--- OSTATNIE 10 ZADAŃ ---")
@@ -37,10 +37,10 @@ def pobierz_z_historii(indeks):
         indeks = int(indeks)
         return _historia[indeks]['wynik']
     except (IndexError, ValueError, TypeError):
-        print("❌ Błąd: Nieprawidłowy numer zadania w historii.")
+        print("Błąd: Nieprawidłowy numer zadania w historii.")
         return None
 
 def wyczysc_historie():
     """Całkowicie czyści pamięć zadań."""
     _historia.clear()
-    print("🗑️ Historia została wyczyszczona.")
+    print("Historia została wyczyszczona.")
