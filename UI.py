@@ -43,7 +43,8 @@ def run_gui():
         Button(180, 100, 120, 35, "Potęga A", "5"),
         Button(310, 100, 120, 35, "Det(A)", "6"),
         Button(440, 50, 120, 35, "Historia", "7"),
-        Button(440, 100, 120, 35, "Zapisz Wynik", "save")
+        Button(440, 100, 120, 35, "Zapisz Wynik", "save"),
+        Button(50, 150, 120, 35,"Wyczyść historię","clear")
     ]
 
     input_rect_a = pygame.Rect(50, 580, 240, 30)
@@ -118,7 +119,12 @@ def run_gui():
                                 display_mode = 'history'
                                 message = "Wyświetlono historię w GUI."
                                 continue
-
+                            elif btn.action_id =="clear":
+                                history.wyczysc_historie()
+                                history_display_text = history.wyswietl_historie_as_string()
+                                display_mode = 'history'
+                                message = "Wyświetlono historię w GUI."
+                                continue
                             # For other operations, clear history display and set to result mode
                             history_display_text = ""
                             display_mode = 'result'
@@ -132,10 +138,21 @@ def run_gui():
 
                                 if not m1_val or not m2_val:
                                     raise ValueError("Obie macierze (A i B) muszą być wprowadzone!")
+                                if "." in m1_val:
+                                    m1 = file_manager.load_matrix(m1_val)
+                                elif "h" not in m1_val:
+                                    m1 = np.array(eval(m1_val))
+                                else:
+                                    m1 = np.array(history.pobierz_z_historii(int(m1_val[1])))
+                                #m1 = file_manager.load_matrix(m1_val) if "." in m1_val elif "h" not in m1_val np.array(eval(m1_val)) else np.array(eval(history.pobierz_z_historii(int(m1_val[2]))))
+                                #m2 = file_manager.load_matrix(m2_val) if "." in m2_val else np.array(eval(m2_val))
 
-                                m1 = file_manager.load_matrix(m1_val) if "." in m1_val else np.array(eval(m1_val))
-                                m2 = file_manager.load_matrix(m2_val) if "." in m2_val else np.array(eval(m2_val))
-
+                                if "." in m2_val:
+                                    m2 = file_manager.load_matrix(m2_val)
+                                elif "h" not in m2_val:
+                                    m2 = np.array(eval(m2_val))
+                                else:
+                                    m2 = np.array(history.pobierz_z_historii(int(m2_val[1])))
                                 if btn.action_id == "1": current_result = operations.dodaj_macierze(m1, m2)
                                 elif btn.action_id == "2": current_result = operations.odejmij_macierze(m1, m2)
                                 elif btn.action_id == "3": current_result = operations.pomnoz_macierze(m1, m2)
@@ -147,7 +164,8 @@ def run_gui():
 
                                 if btn.action_id == "4": current_result = operations.odwroc_macierz(m1)
                                 elif btn.action_id == "6": current_result = operations.wyznacznik_macierzy(m1)
-                                elif btn.action_id == "5": current_result = operations.poteguj_macierz(m1, 2) # Default power for now
+                                elif btn.action_id == "5": current_result = operations.poteguj_macierz(m1, 2)
+                                
 
                             history.dodaj_do_historii(btn.text, current_result)
                             message = f"Wykonano: {btn.text}"

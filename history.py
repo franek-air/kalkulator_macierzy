@@ -1,6 +1,6 @@
 import numpy as np
 
-historia_operacji = []
+_historia = []
 
 def dodaj_do_historii(opis_dzialania, macierz_wynikowa):
     """
@@ -17,17 +17,43 @@ def dodaj_do_historii(opis_dzialania, macierz_wynikowa):
     _historia.append(nowy_wpis)
     print(f"Dodano do historii: {opis_dzialania}")
 
-def wyswietl_historie():
-    """Wypisuje sformatowaną listę ostatnich 10 zadań."""
+def wyswietl_historie_as_string():
     if not _historia:
-        print("\nHistoria jest pusta.")
-        return
-
-    print("\n--- OSTATNIE 10 ZADAŃ ---")
-    for i, wpis in enumerate(_historia):
-        print(f"[{i}] Operacja: {wpis['opis']}")
-        # Wyświetlamy macierz (używamy str(), bo numpy ładnie formatuje macierze)
-        print(f"    Wynik:\n{wpis['wynik']}\n")
+        return "Historia jest pusta."
+    
+    wpisy_z_indeksami = list(enumerate(_historia))[-9:]
+    col_width = 24
+    output_lines = ["--- HISTORIA ---", ""]
+    
+    for i in range(0, len(wpisy_z_indeksami), 3):
+        chunk = wpisy_z_indeksami[i:i+3]
+        columns_text_lines = []
+        
+        for orig_idx, wpis in chunk:
+            col_lines = []
+            col_lines.append(f"[{orig_idx}] {wpis['opis']}")
+            
+            matrix_lines = str(wpis['wynik']).split('\n')
+            matrix_lines = ["         " + line for line in matrix_lines]
+            
+            col_lines.extend(matrix_lines)
+            columns_text_lines.append(col_lines)
+        
+        max_lines = max(len(lines) for lines in columns_text_lines)
+        
+        for line_idx in range(max_lines):
+            row_parts = []
+            for col_lines in columns_text_lines:
+                text = col_lines[line_idx] if line_idx < len(col_lines) else ""
+                row_parts.append(text.ljust(col_width))
+            
+            output_lines.append(" | ".join(row_parts))
+        
+        total_row_length = col_width * len(chunk) + 3 * (len(chunk) - 1)
+        output_lines.append("-" * total_row_length)
+        output_lines.append("")
+        
+    return "\n".join(output_lines)
 
 def pobierz_z_historii(indeks):
     """Zwraca macierz wynikową z konkretnego zadania na podstawie indeksu."""
