@@ -2,14 +2,43 @@ import numpy as np
 
 # OSOBA B:
 def dodaj_macierze(A, B):
-    # podpowiedź: return np.add(A, B)
-    pass
+    """
+    Dodaje dwie macierze element-po-elemencie.
+    Przyjmuje listy lub numpy.array. Zwraca numpy.array lub string z błędem.
+    """
+    try:
+        A_np = np.asarray(A)
+        B_np = np.asarray(B)
+        return np.add(A_np, B_np)
+    except Exception as e:
+        return f"Błąd podczas dodawania: {e}"
 
 def odejmij_macierze(A, B):
-    pass
+    """
+    Odejmuje macierz B od macierzy A (element-po-elemencie).
+    Przyjmuje listy lub numpy.array. Zwraca numpy.array lub string z błędem.
+    """
+    try:
+        A_np = np.asarray(A)
+        B_np = np.asarray(B)
+        return np.subtract(A_np, B_np)
+    except Exception as e:
+        return f"Błąd podczas odejmowania: {e}"
 
 def pomnoz_macierze(A, B):
-    pass
+    """
+    Mnoży macierze (iloczyn macierzowy).
+    Przyjmuje listy lub numpy.array. Zwraca numpy.array lub string z błędem.
+    """
+    try:
+        A_np = np.asarray(A)
+        B_np = np.asarray(B)
+        # Używamy mnożenia macierzowego (matmul)
+        return np.matmul(A_np, B_np)
+    except ValueError as e:
+        return f"Błąd kształtu podczas mnożenia macierzy: {e}"
+    except Exception as e:
+        return f"Błąd podczas mnożenia: {e}"
 
 # OSOBA C
 def odwroc_macierz(A):
